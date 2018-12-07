@@ -1,0 +1,30 @@
+{
+    "name": "razmiksaghoyan/omnipay-yandexmoney",
+    "description": "Yandex Money gateway for Omnipay payment processing library",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/RazmikSaghoyan/omnipay-yandexmoney",
+    "authors": [
+        {
+            "name": "Razmik Saghoyan",
+            "email": "razmiksaghoyan@gmail.com"
+        }
+    ],
+    "keywords": [
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment",
+        "yandex",
+        "purchase"
+    ],
+    "require": {
+        "omnipay/common": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Omnipay\\Yandex\\": "src/"
+        }
+    }
+}
