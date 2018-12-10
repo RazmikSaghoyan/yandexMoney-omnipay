@@ -1,182 +1,91 @@
 <?php
 
-namespace yandexmoney\YandexMoney\Message;
+namespace Omnipay\YandexMoney\Message;
+
+use Omnipay\YandexMoney\Helpers\ParametersTrait;
 
 /**
  * YandexMoney Purchase Request
  */
-class PurchaseRequest extends \Omnipay\Common\Message\AbstractRequest
+class PurchaseRequest extends AbstractRequest
 {
-    public function getPassword()
-    {
-        return $this->getParameter('password');
-    }
+    use ParametersTrait;
 
-    public function setPassword($value)
-    {
-        return $this->setParameter('password', $value);
-    }
-
-    public function getMethod()
-    {
-        return $this->getParameter('method');
-    }
-
-    public function setMethod($value)
-    {
-        return $this->setParameter('method', $value);
-    }
-
-    public function getCustomerNumber()
-    {
-        return $this->getParameter('customerNumber');
-    }
-
-    public function setCustomerNumber($value)
-    {
-        return $this->setParameter('customerNumber', $value);
-    }
-
-    public function getOrderNumber()
-    {
-        return $this->getParameter('orderNumber');
-    }
-
-    public function setOrderNumber($value)
-    {
-        return $this->setParameter('orderNumber', $value);
-    }
-
-    public function getOrderId()
-    {
-        return $this->getParameter('orderId');
-    }
-    public function setOrderId($value)
-    {
-        return $this->setParameter('orderId', $value);
-    }
-    public function getShopId()
-    {
-        return $this->getParameter('shopid');
-    }
-
-    public function setShopId($value)
-    {
-        return $this->setParameter('shopid', $value);
-    }
-
-    public function getScid()
-    {
-        return $this->getParameter('scid');
-    }
-
-    public function setScid($value)
-    {
-        return $this->setParameter('scid', $value);
-    }
-
-    public function getCurrencyNum()
-    {
-        return $this->getParameter('currencyNum');
-    }
-
-    public function setCurrencyNum($value)
-    {
-        return $this->setParameter('currencyNum', $value);
-    }
-
-    public function getAction()
-    {
-         return $this->getParameter('action');
-    }
-    public function setAction($value)
-    {
-        return $this->setParameter('action', $value);
-    }
-
-
-    public function getOrderSumAmount()
-    {
-         return $this->getParameter('orderSumAmount');
-    }
-    public function getOrderSumCurrencyPaycash()
-    {
-         return $this->getParameter('orderSumCurrencyPaycash');
-    }
-    public function getOrderSumBankPaycash()
-    {
-         return $this->getParameter('orderSumBankPaycash');
-    }
-
-    public function setOrderSumAmount($value)
-    {
-         return $this->setParameter('orderSumAmount', $value);
-    }
-    public function setOrderSumCurrencyPaycash($value)
-    {
-         return $this->setParameter('orderSumCurrencyPaycash', $value);
-    }
-    public function setOrderSumBankPaycash($value)
-    {
-         return $this->setParameter('orderSumBankPaycash', $value);
-    }
-
-    public function getInvoiceId()
-    {
-        return $this->getParameter('invoiceId');
-    }
-    public function setInvoiceId($value)
-    {
-        return $this->setParameter('invoiceId', $value);
-    }
-    public function getMd5()
-    {
-         return $this->getParameter('md5');
-    }
-    public function setMd5($value)
-    {
-        return $this->setParameter('md5', $value);
-    }
-
-    public function getReceipt()
-    {
-        return $this->getParameter('receipt');
-    }
-
-    public function setReceipt($value)
-    {
-        return $this->setParameter('receipt', $value);
-    }
-
-
+    /**
+     * Prepare data to send
+     * @return array|mixed
+     */
     public function getData()
     {
-        $this->validate('shopid', 'scid', 'customerNumber', 'amount', 'orderId',
-                        'method', 'returnUrl', 'cancelUrl');
+        $this->validate('amount', 'currency',
+            'confirmationType', 'returnUrl');
 
-        $data = array();
-        $data['scid'] = $this->getScid();
-        $data['shopid'] = $this->getShopId();
-        $data['customerNumber'] = $this->getCustomerNumber();
-        $data['orderNumber'] = $this->getOrderId();
-        $data['sum'] = $this->getAmount();
-        $data['orderSumCurrencyPaycash'] = $this->getCurrencyNum();
+        $data = [
+            'amount'      => [
+                'value'    => $this->getAmount(),
+                'currency' => $this->getCurrency()
+            ],
+            'client_ip'   => $this->getClientIp(),
+            'description' => $this->getDescription()
+        ];
 
-        $data['paymentType'] = $this->getMethod();
+        if ($this->getItems()) {
+            $data['receipt']['items'] = $this->getItems();
 
-        $data['shopSuccessURL'] = $this->getReturnUrl();
-        $data['shopFailURL'] = $this->getCancelUrl();
+            if ($this->getTaxSystemCode()) {
+                $data['receipt']['tax_system_code'] = $this->getTaxSystemCode();
+            }
 
-        $receipt = $this->getReceipt();
-        if (!empty($receipt)) {
-            $data['ym_merchant_receipt'] = $receipt;
+            if ($this->getPhone()) {
+                $data['receipt']['phone'] = $this->getPhone();
+            } elseif ($this->getEmail()) {
+                $data['receipt']['email'] = $this->getEmail();
+            }
+        }
+
+        if ($this->getConfirmationType()) {
+            $data['confirmation']['type'] = $this->getConfirmationType();
+            $data['confirmation']['return_url'] = $this->getReturnUrl();
+        }
+
+        if ($this->getGatewayId()) {
+            $data['recipient']['gateway_id'] = $this->getGatewayId();
+        }
+
+        if ($this->getPaymentMethodId()) {
+            $data['payment_method_id'] = $this->getPaymentMethodId();
+        }
+
+        if ($this->getSavePaymentMethod()) {
+            $data['save_payment_method'] = $this->getSavePaymentMethod();
+        }
+
+        if ($this->getCapture()) {
+            $data['capture'] = $this->getCapture();
+        }
+
+        if ($this->getMetadata()) {
+            $data['metadata'] = $this->getMetadata();
+        }
+
+        if ($this->getTestMode()) {
+            $data['testMode'] = $this->getTestMode();
         }
 
         return $data;
     }
 
+    /**
+     * Send the request with specified data
+     *
+     * @param mixed $data
+     *
+     * @return \Omnipay\Common\Message\ResponseInterface|\Omnipay\YandexMoney\Message\PurchaseResponse
+     */
     public function sendData($data)
     {
-        return $this->response = new PurchaseResponse($this, $data);
+        $response = $this->yandex->createPayment($data);
+
+        return $this->response = new PurchaseResponse($this, $response);
     }
 }

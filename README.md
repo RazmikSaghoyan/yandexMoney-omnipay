@@ -37,20 +37,58 @@ Or you can simply run
     use Omnipay\Omnipay;
 ```
 
-2. Initialize Yandex gateway:
+2. Initialize Yandex Money gateway and make a purchase:
+
+```php
+$gateway = Omnipay::create('YandexMoney');              // Getway name
+$gateway->setShopId(env('SHOP_ID'));                    // Should be your Yandex Shop Id
+$gateway->setSecretKey(env('SECRET_KEY'));              // Should be your Yandex Secrect Key
+$gateway->setReturnUrl(env('RETURN_URL'));              // The URL to which you will be redirected after completing the purchase
+$gateway->setAmount(10);                                // Amount to charge
+$gateway->setCurrency('RUB');                           // Currency
+$purchaseData->setDescription('Your Description');      // Payment Description
+$purchaseData->setConfirmationType('redirect');         // Redirect Only 
+$purchaseData->setSavePaymentMethod(true/false);        // Saving Payment Method
+$purchaseData->setCapture(true/false);                  // Automatic acceptance of received payment
+$purchaseData->setClientIp('Your Ip');                  // Client Ip Address
+
+$purchase = $gateway->purchase()->send();
+
+if ($purchase->isRedirect()) {
+    // resturn RedirectUrl and OrderId, or write Your logic
+    return [
+        'redirectUrl' => $response->getRedirectUrl(),   // Redirection to previously generated unique URL 
+        'orderId'     => $response->getOrderId()        // Payment Id
+    ];
+} else {
+    throw new Exception($purchase->getMessage());
+}
+```
+
+3. Completeng Payment <br>
+You will be redirected to YandexMoney form page. 
+After filling and submitting credit card (Yandex Money) data YandexMoney page will webhook http://example.com/xxx (refer to also to point 2)
 
 ```php
 
+$gateway = Omnipay::create('YandexMoney');  // Getway name
+$gateway->setShopId(env('SHOP_ID'));        // Should be your Yandex Shop Id
+$gateway->setSecretKey(env('SECRET_KEY'));  // Should be your Yandex Secrect Key$$webService = $gateway->completePurchase([             
 
+$response = $gateway->completePurchase(
+    $paymentId,                             // Payment Id
+    $amount                                 // Amount to charge
+);
 
+if ($response->isSuccessful()) {
+    // resturn order Id, description and payment data, or write Your logic
+    return [
+        'orderId' => $response->getOrderId(),
+        'description' => $response->getDescription(),
+        'paymentdata' => $response->getPaymentMethodData()
+    ];
+}
 ```
-
-3. Processing payment <br>
-After payment request approval, call receive positive or negative response 
-
-
-
-4. Completeng Payment <br>
 
 
 For testing puposes you should use only AMD currency and charge not more than 10 AMD 

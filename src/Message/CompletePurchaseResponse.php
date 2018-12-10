@@ -1,35 +1,51 @@
 <?php
 
-namespace yandexmoney\YandexMoney\Message;
+namespace Omnipay\YandexMoney\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
+use Omnipay\YandexMoney\Helpers\ParametersTrait;
+use YandexCheckout\Model\PaymentStatus;
 
 /**
  * YandexMoney Complete Purchase Response
  */
 class CompletePurchaseResponse extends AbstractResponse
 {
+    use ParametersTrait;
+
+    /**
+     * Get successful status
+     * @return bool
+     */
     public function isSuccessful()
     {
-        return ($this->data['code'] === 0);
+        return ($this->data['status'] === PaymentStatus::SUCCEEDED);
     }
 
-    public function isRedirect()
+    /**
+     * Get Order ID
+     * @return string
+     */
+    public function getOrderId()
     {
-        return false;
+        return $this->data['id'];
     }
 
-    public function getMessage()
+    /**
+     * Get Description
+     * @return string
+     */
+    public function getDescription()
     {
-      $xmlMessage  = '<?xml version="1.0" encoding="UTF-8"?>';
-	  $xmlMessage .= '<paymentAvisoResponse performedDatetime="' . date("c") . '" '
-				   . 'code="' . $this->data['code'] . '" '
-				   . 'invoiceId="' . $this->data['invoiceId'] .'" '
-				   . 'shopId="'.$this->data['shopId'] . '"/>';
-	  return $xmlMessage;
-	}
+        return $this->data['description'];
+    }
 
-	 public function getTransactionReference(){
-		return $this->data['orderNumber'];
-	 }
+    /**
+     * Get Payment Method Data
+     * @return string
+     */
+    public function getPaymentMethodData()
+    {
+        return $this->data['payment_method'];
+    }
 }
