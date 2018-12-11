@@ -20,7 +20,8 @@
         "purchase"
     ],
     "require": {
-        "omnipay/common": "^3.0"
+        "omnipay/common": "^3.0",
+        "yandex-money/yandex-checkout-sdk-php": "^1.0"
     },
     "autoload": {
         "psr-4": {

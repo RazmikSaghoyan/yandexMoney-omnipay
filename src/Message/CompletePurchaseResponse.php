@@ -11,8 +11,6 @@ use YandexCheckout\Model\PaymentStatus;
  */
 class CompletePurchaseResponse extends AbstractResponse
 {
-    use ParametersTrait;
-
     /**
      * Get successful status
      * @return bool
