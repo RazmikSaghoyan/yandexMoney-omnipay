@@ -12,7 +12,7 @@ use Omnipay\YandexMoney\Message\CompletePurchaseRequest;
 use Omnipay\YandexMoney\Message\PurchaseRequest;
 
 /**
- * YandexMoney Class
+ * YandexMoney Gateway
  */
 class Gateway extends AbstractGateway
 {
