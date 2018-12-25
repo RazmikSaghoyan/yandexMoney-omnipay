@@ -3,7 +3,6 @@
 namespace Omnipay\YandexMoney\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\YandexMoney\Helpers\ParametersTrait;
 use YandexCheckout\Model\PaymentStatus;
 
 /**

@@ -2,7 +2,6 @@
 
 namespace Omnipay\YandexMoney\Message;
 
-use Omnipay\YandexMoney\Helpers\ParametersTrait;
 use YandexCheckout\Model\PaymentStatus;
 
 /**
@@ -11,8 +10,69 @@ use YandexCheckout\Model\PaymentStatus;
  */
 class RefundRequest extends AbstractRequest
 {
-    use ParametersTrait;
+    /**
+     * Sets the request Amount
+     * @param $value
+     * @return mixed
+     */
+    public function setAmount($value)
+    {
+        return $this->setParameter('amount', $value);
+    }
 
+    /**
+     * Get Amount
+     * @return mixed
+     */
+    public function getAmount()
+    {
+        return $this->getParameter('amount');
+    }
+
+    /**
+     * Sets the request Currency
+     * @param $value
+     * @return mixed
+     */
+    public function setCurrency($value)
+    {
+        return $this->setParameter('currency', $value);
+    }
+
+    /**
+     * Get Currency
+     * @return mixed
+     */
+    public function getCurrency()
+    {
+        return $this->getParameter('currency');
+    }
+
+    /**
+     * Sets the request payment method ID.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setPaymentMethodId($value)
+    {
+        return $this->setParameter('paymentMethodId', $value);
+    }
+
+    /**
+     * Get the request payment method ID.
+     * @return $this
+     */
+    public function getPaymentMethodId()
+    {
+        return $this->getParameter('paymentMethodId');
+    }
+
+    /**
+     * Prepare data to send
+     * @return array|mixed
+     */
     public function getData()
     {
         $this->validate('amount', 'currency', 'paymentMethodId');
@@ -27,6 +87,13 @@ class RefundRequest extends AbstractRequest
         ];
     }
 
+    /**
+     * Send the request with specified data
+     *
+     * @param mixed $data
+     *
+     * @return \Omnipay\Common\Message\ResponseInterface|\Omnipay\YandexMoney\Message\RefundResponse
+     */
     public function sendData($data)
     {
         $payment = $this->yandex->createRefund($data);

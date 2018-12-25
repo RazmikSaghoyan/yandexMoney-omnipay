@@ -80,7 +80,7 @@ class CompletePurchaseRequest extends AbstractRequest
                 'value'    => $this->getAmount(),
                 'currency' => $this->getCurrency()
             ],
-            'orderId'  => $this->getPaymentMethodId()
+            'paymentMethodId'  => $this->getPaymentMethodId()
         ];
 
         return $data;
@@ -97,7 +97,7 @@ class CompletePurchaseRequest extends AbstractRequest
     {
         $response = $this->yandex->capturePayment(
             ['amount'   => array_get($data, 'amount', [])],
-            array_get($data, 'orderId')
+            array_get($data, 'paymentMethodId')
         );
 
         return $this->response = new CompletePurchaseResponse($this, $response);
