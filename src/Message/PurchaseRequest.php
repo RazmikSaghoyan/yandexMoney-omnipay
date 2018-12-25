@@ -68,10 +68,6 @@ class PurchaseRequest extends AbstractRequest
             $data['metadata'] = $this->getMetadata();
         }
 
-        if ($this->getTestMode()) {
-            $data['testMode'] = $this->getTestMode();
-        }
-
         return $data;
     }
 

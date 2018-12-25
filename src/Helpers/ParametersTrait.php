@@ -339,25 +339,4 @@ trait ParametersTrait
     {
         return $this->getParameter('metadata');
     }
-
-    /**
-     * Sets the request test mode.
-     *
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function setTestMode($value)
-    {
-        return $this->setParameter('testMode', !empty($value));
-    }
-
-    /**
-     * Get the request test mode.
-     * @return $this
-     */
-    public function getTestMode()
-    {
-        return $this->getParameter('testMode');
-    }
 }

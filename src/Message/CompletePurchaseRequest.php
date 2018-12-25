@@ -24,8 +24,7 @@ class CompletePurchaseRequest extends AbstractRequest
                 'value'    => $this->getAmount(),
                 'currency' => $this->getCurrency()
             ],
-            'orderId'  => $this->getPaymentMethodId(),
-            'testMode' => $this->getTestMode()
+            'orderId'  => $this->getPaymentMethodId()
         ];
 
         return $data;
@@ -41,10 +40,7 @@ class CompletePurchaseRequest extends AbstractRequest
     public function sendData($data)
     {
         $response = $this->yandex->capturePayment(
-            [
-                'amount'   => array_get($data, 'amount', []),
-                'testMode' => array_get($data, 'testMode', [])
-            ],
+            ['amount'   => array_get($data, 'amount', [])],
             array_get($data, 'orderId')
         );
 

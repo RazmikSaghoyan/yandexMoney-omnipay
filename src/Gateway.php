@@ -12,11 +12,24 @@ use Omnipay\YandexMoney\Message\CompletePurchaseRequest;
 use Omnipay\YandexMoney\Message\PurchaseRequest;
 
 /**
- * YandexMoney Gateway
+ * Class Gateway
+ * @package Omnipay\Bizmail
+ * @method \Omnipay\Common\Message\RequestInterface authorize(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface capture(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface void(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface createCard(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface deleteCard(array $options = array())
  */
 class Gateway extends AbstractGateway
 {
     use ParametersTrait;
+
+    /**
+     * @var \YandexCheckout\Client
+     */
+    protected $yandex;
 
     /**
      * Gateway constructor.
@@ -72,6 +85,7 @@ class Gateway extends AbstractGateway
 
     /**
      * @param array $parameters
+     *
      * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function purchase(array $parameters = array())
@@ -82,7 +96,7 @@ class Gateway extends AbstractGateway
     /**
      * Complete purchase
      *
-     * @param array $options
+     * @param array $parameters
      *
      * @return \Omnipay\Common\Message\AbstractRequest|\Omnipay\Common\Message\RequestInterface
      */
