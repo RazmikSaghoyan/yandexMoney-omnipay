@@ -4,7 +4,6 @@ namespace Omnipay\YandexMoney;
 
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Http\ClientInterface;
-use Omnipay\YandexMoney\Helpers\ParametersTrait;
 use Omnipay\YandexMoney\Message\RefundRequest;
 use YandexCheckout\Client;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
@@ -24,8 +23,6 @@ use Omnipay\YandexMoney\Message\PurchaseRequest;
  */
 class Gateway extends AbstractGateway
 {
-    use ParametersTrait;
-
     /**
      * @var \YandexCheckout\Client
      */
