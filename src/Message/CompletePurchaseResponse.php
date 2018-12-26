@@ -45,4 +45,13 @@ class CompletePurchaseResponse extends AbstractResponse
     {
         return $this->data['payment_method'];
     }
+
+    /**
+     * Get Message
+     * @return null|string
+     */
+    public function getMessage()
+    {
+        return $this->data['description'];
+    }
 }

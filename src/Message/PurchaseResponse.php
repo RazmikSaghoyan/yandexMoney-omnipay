@@ -66,4 +66,13 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
     {
         return $this->data;
     }
+
+    /**
+     * Get Message
+     * @return null|string
+     */
+    public function getMessage()
+    {
+        return $this->data->getDescription();
+    }
 }
