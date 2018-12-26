@@ -51,7 +51,7 @@ class RefundRequest extends AbstractRequest
     {
         return $this->getParameter('secretKey');
     }
-    
+
     /**
      * Sets the request Amount
      * @param $value
