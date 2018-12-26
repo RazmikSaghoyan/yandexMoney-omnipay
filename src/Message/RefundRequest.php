@@ -11,6 +11,48 @@ use YandexCheckout\Model\PaymentStatus;
 class RefundRequest extends AbstractRequest
 {
     /**
+     * Sets the request shop ID.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setShopId($value)
+    {
+        return $this->setParameter('shopId', $value);
+    }
+
+    /**
+     * Get the request shop ID.
+     * @return $this
+     */
+    public function getShopId()
+    {
+        return $this->getParameter('shopId');
+    }
+
+    /**
+     * Sets the request secret key.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setSecretKey($value)
+    {
+        return $this->setParameter('secretKey', $value);
+    }
+
+    /**
+     * Get the request secret key.
+     * @return $this
+     */
+    public function getSecretKey()
+    {
+        return $this->getParameter('secretKey');
+    }
+    
+    /**
      * Sets the request Amount
      * @param $value
      * @return mixed
