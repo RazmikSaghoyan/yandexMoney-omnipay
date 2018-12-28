@@ -20,12 +20,22 @@ class CompletePurchaseResponse extends AbstractResponse
     }
 
     /**
-     * Get Order ID
+     * Get TransactionId
      * @return string
      */
-    public function getOrderId()
+    public function getTransactionId()
     {
         return $this->data['id'];
+    }
+
+
+    /**
+     * Get
+     * @return null|string
+     */
+    public function getTransactionReference()
+    {
+        return $this->getTransactionId();
     }
 
     /**

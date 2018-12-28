@@ -50,12 +50,21 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
     }
 
     /**
-     * Get Order ID
+     * Get TransactionId
      * @return string
      */
-    public function getOrderId()
+    public function getTransactionId()
     {
-        return $this->data->getId();
+        return $this->data['id'];
+    }
+
+    /**
+     * Get
+     * @return null|string
+     */
+    public function getTransactionReference()
+    {
+        return $this->getTransactionId();
     }
 
     /**
